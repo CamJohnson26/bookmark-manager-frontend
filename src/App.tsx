@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import { gql, useQuery } from "@apollo/client";
 import { GridRowsProp, GridColDef, DataGrid } from "@mui/x-data-grid";
+import LoginButton from "./LoginButton";
+import {useAuth0} from "@auth0/auth0-react";
+import LogoutButton from "./LogoutButton";
 
 const URL_QUERY = gql`
   query MyQuery {
@@ -38,10 +41,16 @@ function App() {
     { field: "summary", headerName: "Summary", width: 1000, resizable: true, filterable: true },
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
-
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+  console.log('User', isAuthenticated);
   return (
       <div style={{width: '100%', height: 1000}} >
-        <DataGrid rows={rows} columns={columns} />
+        {
+            isAuthenticated && <DataGrid rows={rows} columns={columns} />
+        }
+
+        <LoginButton />
+        <LogoutButton />
       </div>
   );
 }
