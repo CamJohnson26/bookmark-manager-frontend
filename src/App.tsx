@@ -45,9 +45,8 @@ function App() {
     { field: "summary", headerName: "Summary", width: 1000, resizable: true, filterable: true },
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
   const {postData} = useBookmarksUpload()
-
   return (
       <div style={{width: '100%', height: 1000}} >
         {

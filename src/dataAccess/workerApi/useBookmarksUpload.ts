@@ -9,9 +9,9 @@ export const useBookmarksUpload = () => {
     const {getAccessTokenSilently, isAuthenticated, isLoading: auth0Loading} = useAuth0();
 
 
-    const postData = useCallback(async (urls: string[]) => {
+    const postData = async (urls: string[]) => {
         if (auth0Loading || !isAuthenticated) {
-            console.log('Auth failed')
+            console.log('Auth failed', auth0Loading, isAuthenticated)
             return;
         }
         try {
@@ -33,7 +33,7 @@ export const useBookmarksUpload = () => {
             console.error('Error:', error);
         }
         setLoading(false)
-    }, []);
+    }
     return {
         postData,
         loading
