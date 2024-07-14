@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/bookmark-manager-frontend.iml" filepath="$PROJECT_DIR$/.idea/bookmark-manager-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../frontend-templates/.idea/frontend-templates.iml" filepath="$PROJECT_DIR$/../frontend-templates/.idea/frontend-templates.iml" />
     </modules>
   </component>
 </project>
