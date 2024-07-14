@@ -8,6 +8,7 @@ import LogoutButton from "./LogoutButton";
 import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
 import {useHelloWorld} from "./dataAccess/workerApi/useHelloWorld";
+import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
 
 const URL_QUERY = gql`
   query MyQuery {
@@ -44,9 +45,9 @@ function App() {
     { field: "summary", headerName: "Summary", width: 1000, resizable: true, filterable: true },
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
-  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
-  const apiCall = useHelloWorld();
-  console.log('API results', apiCall)
+  const { isAuthenticated } = useAuth0();
+  const {postData} = useBookmarksUpload()
+
   return (
       <div style={{width: '100%', height: 1000}} >
         {
@@ -56,7 +57,7 @@ function App() {
         <LoginButton />
         <LogoutButton />
         <CJDialog title={'Upload Bookmarks'} buttonTitle={'Upload Bookmarks'}>
-          <ImportText onImport={(text) => console.log(text)} />
+          <ImportText onImport={(text) => postData(text.split('\n'))} />
         </CJDialog>
 
       </div>
