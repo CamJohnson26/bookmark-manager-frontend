@@ -7,7 +7,6 @@ import {useAuth0} from "@auth0/auth0-react";
 import LogoutButton from "./LogoutButton";
 import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
-import {useHelloWorld} from "./dataAccess/workerApi/useHelloWorld";
 import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
 
 const URL_QUERY = gql`

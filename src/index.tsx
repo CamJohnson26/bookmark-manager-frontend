@@ -9,6 +9,7 @@ import {
     ApolloProvider,
 } from "@apollo/client";
 import {Auth0Provider} from "@auth0/auth0-react";
+import {RouteBar} from "./navigation/RouteBar";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -29,9 +30,17 @@ root.render(
             }}
             useRefreshTokens={true}
         >
-            <ApolloProvider client={client}>
-                <App />
-            </ApolloProvider>
+            <RouteBar title={'Cam\'s Books'} routes={[{
+                name: 'Bookmarks',
+                path: '/bookmarks',
+                component: <ApolloProvider client={client}>
+                    <App />
+                </ApolloProvider>
+            }, {
+                name: 'Books',
+                path: '/books',
+                component: <>Books Here</>
+            }]} />
         </Auth0Provider>
     </React.StrictMode>
 );
