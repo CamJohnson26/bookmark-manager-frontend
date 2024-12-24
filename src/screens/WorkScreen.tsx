@@ -31,7 +31,7 @@ const Sections = ({workId}: {workId: string}) => {
     console.log(sections);
     return <NavigableList items={sections.map(section => {
         return {
-            name: section[2],
+            name: `${section[1]} - ${section[2]}`,
             id: section[0],
         }
     })} onClick={(item) => alert(`${item} clicked`)} />
