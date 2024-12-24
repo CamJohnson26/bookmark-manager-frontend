@@ -50,7 +50,15 @@ function App() {
   return (
       <div style={{width: '100%', height: 1000}}>
         {
-            isAuthenticated && <DataGrid rows={rows} columns={columns} />
+            isAuthenticated && <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                  sorting: {
+                    sortModel: [{ field: "id", sort: "desc" }],
+                  },
+                }}
+            />
         }
 
         <LoginButton />
