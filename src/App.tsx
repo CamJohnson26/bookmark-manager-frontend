@@ -45,9 +45,10 @@ function App() {
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
   const { isAuthenticated, isLoading } = useAuth0();
+
   const {postData} = useBookmarksUpload()
   return (
-      <div style={{width: '100%', height: 1000}} >
+      <div style={{width: '100%', height: 1000}}>
         {
             isAuthenticated && <DataGrid rows={rows} columns={columns} />
         }

@@ -10,6 +10,7 @@ import {
 } from "@apollo/client";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {RouteBar} from "./navigation/RouteBar";
+import {WorkScreen} from "./screens/WorkScreen";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -34,14 +35,14 @@ root.render(
         >
             <RouteBar title={'Cam\'s Books'} routes={[{
                 name: 'Bookmarks',
-                path: '/bookmarks',
+                path: '/',
                 component: <ApolloProvider client={client}>
                     <App />
                 </ApolloProvider>
             }, {
                 name: 'Books',
                 path: '/books',
-                component: <>Books Here</>
+                component: <WorkScreen />
             }]} />
         </Auth0Provider>
     </React.StrictMode>
