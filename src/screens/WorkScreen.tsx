@@ -3,6 +3,7 @@ import {useGetWorks} from "../dataAccess/workerApi/useGetWorks";
 import {NavigableList} from "../navigation/NavigableList";
 import {useGetSections} from "../dataAccess/workerApi/useGetSections";
 import {useState} from "react";
+import {useGetEmbeddings} from "../dataAccess/workerApi/useGetEmbeddings";
 
 export const WorkScreen = () => {
     const worksData = useGetWorks();
@@ -28,11 +29,26 @@ export const WorkScreen = () => {
 const Sections = ({workId}: {workId: string}) => {
     const sectionsData = useGetSections(workId)
     const sections = Array.isArray(sectionsData.data) ? sectionsData.data : [];
-    console.log(sections);
-    return <NavigableList items={sections.map(section => {
+
+    const [selectedEmbeddingId, setSelectedEmbeddingId] = useState<string |undefined>()
+    return <><NavigableList items={sections.map(section => {
         return {
             name: `${section[1]} - ${section[2]}`,
-            id: section[0],
+            id: section[3],
         }
-    })} onClick={(item) => alert(`${item} clicked`)} />
+    })} onClick={(item) => setSelectedEmbeddingId(item.id)} />
+        {selectedEmbeddingId && <Embeddings embeddingId={selectedEmbeddingId} key={selectedEmbeddingId} />}
+        </>
+}
+
+const Embeddings = ({embeddingId}: {embeddingId: string}) => {
+    const embeddingsData = useGetEmbeddings(embeddingId)
+
+    const embeddings = Array.isArray(embeddingsData.data) ? embeddingsData.data : [];
+    return <NavigableList items={embeddings.map(embedding => {
+        return {
+            name: `${embedding[5]} - ${embedding[2]} - ${embedding[3]} - ${embedding[1]}`,
+            id: embedding[0],
+        }
+    })} onClick={(item) => alert('Clicked')} />
 }
