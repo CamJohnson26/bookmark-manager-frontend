@@ -1,4 +1,4 @@
-import {Box, Stack} from "@mui/material";
+import {Box, Stack, Switch} from "@mui/material";
 import {useGetWorks} from "../dataAccess/workerApi/useGetWorks";
 import {NavigableList} from "../navigation/NavigableList";
 import {useGetSections} from "../dataAccess/workerApi/useGetSections";
@@ -7,9 +7,14 @@ import {useGetEmbeddings} from "../dataAccess/workerApi/useGetEmbeddings";
 
 export const WorkScreen = () => {
     const worksData = useGetWorks();
-    const [selectedWork, setSelectedWork] = useState<string |undefined>()
+    const [selectedWork, setSelectedWork] = useState<string | undefined>()
+
+
+    const [show, setShow] = useState<boolean>(true)
     const works = Array.isArray(worksData.data) ? worksData.data : [];
+    const selectedWorkName = works.filter(work => work[0] === selectedWork)?.[0]?.[1];
     return <Box style={{width: '100%', height: 1000, paddingTop: 30, justifyItems: 'center', marginLeft: 'auto'}}>
+        Show self: <Switch checked={show} onChange={() => setShow(!show)} />
         <Stack direction="row" spacing={1}>
             <NavigableList items={works.map(work => {
                 return {
@@ -19,14 +24,14 @@ export const WorkScreen = () => {
             })} onClick={(item) => setSelectedWork(item.id)} />
             {
                 selectedWork && (
-                    <Sections workId={selectedWork} key={selectedWork} />
+                    <Sections workId={selectedWork} key={selectedWork} filterName={selectedWorkName} show={show} />
                 )
             }
         </Stack>
     </Box>;
 }
 
-const Sections = ({workId}: {workId: string}) => {
+const Sections = ({workId, filterName, show}: {workId: string; filterName: string; show: boolean}) => {
     const sectionsData = useGetSections(workId)
     const sections = Array.isArray(sectionsData.data) ? sectionsData.data : [];
 
@@ -37,15 +42,18 @@ const Sections = ({workId}: {workId: string}) => {
             id: section[3],
         }
     })} onClick={(item) => setSelectedEmbeddingId(item.id)} />
-        {selectedEmbeddingId && <Embeddings embeddingId={selectedEmbeddingId} key={selectedEmbeddingId} />}
+        {selectedEmbeddingId && <Embeddings embeddingId={selectedEmbeddingId} key={selectedEmbeddingId} show={show} filterName={filterName} />}
         </>
 }
 
-const Embeddings = ({embeddingId}: {embeddingId: string}) => {
+const Embeddings = ({embeddingId, filterName, show}: {embeddingId: string; filterName: string; show: boolean}) => {
     const embeddingsData = useGetEmbeddings(embeddingId)
 
     const embeddings = Array.isArray(embeddingsData.data) ? embeddingsData.data : [];
-    return <NavigableList items={embeddings.map(embedding => {
+    const filteredEmbeddings = embeddings.filter((embedding) => {
+        return show || embedding[3] !== filterName
+    })
+    return <NavigableList items={filteredEmbeddings.map(embedding => {
         return {
             name: `${embedding[5]} - ${embedding[2]} - ${embedding[3]} - ${embedding[1]}`,
             id: embedding[0],
