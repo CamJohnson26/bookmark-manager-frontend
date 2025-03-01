@@ -12,6 +12,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import {RouteBar} from "./navigation/RouteBar";
 import {WorkScreen} from "./screens/WorkScreen";
 import {NewsScreen} from "./screens/NewsScreen";
+import {ReferencesScreen} from "./screens/ReferencesScreen";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -44,6 +45,10 @@ root.render(
                 name: 'Books',
                 path: '/books',
                 component: <WorkScreen />
+            }, {
+                name: 'References',
+                path: '/references',
+                component: <ReferencesScreen />
             }, {
                 name: 'News',
                 path: '/news',
