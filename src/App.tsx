@@ -47,7 +47,6 @@ function App() {
   ];
   const { isAuthenticated, isLoading } = useAuth0();
 
-  const {postData} = useBookmarksUpload()
   return (
       <div style={{width: '100%', height: 1000}}>
         {
@@ -66,12 +65,19 @@ function App() {
           <LoginButton />
           <LogoutButton />
         </Stack>
-        <CJDialog title={'Upload Bookmarks'} buttonTitle={'Upload Bookmarks'}>
-          <ImportText onImport={(text) => postData(text.split('\n'))} />
-        </CJDialog>
-
+        <ImportTextButton />
       </div>
   );
 }
+
+const ImportTextButton = () => {
+  const {postData} = useBookmarksUpload()
+
+  return (
+      <CJDialog title={'Upload Bookmarks'} buttonTitle={'Upload Bookmarks'}>
+        <ImportText onImport={(text) => postData(text.split('\n'))}/>
+      </CJDialog>
+  );
+};
 
 export default App;

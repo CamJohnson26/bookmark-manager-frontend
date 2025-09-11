@@ -19,6 +19,6 @@ export const ImportText = ({onImport}:{onImport: (text: string) => void}) => {
             onClick={(e) => {
             e.preventDefault();
             onImport(text.current);
-        }}>Import Text</Button>
+        }}>Import Text!</Button>
     </Stack>
 }
