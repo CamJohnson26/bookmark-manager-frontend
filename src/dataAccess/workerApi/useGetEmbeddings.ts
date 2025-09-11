@@ -11,8 +11,8 @@ export const useGetEmbeddings = (section_id: string) => {
         const fetchData = async () => {
 
             try {
-                if (auth0Loading || !isAuthenticated) {
-                    throw `Auth failed ${auth0Loading} ${isAuthenticated}`
+                if (auth0Loading) {
+                    throw `Auth loading ${auth0Loading}`
                 }
                 if (process.env.REACT_APP_WORKER_API_URL) {
                     const url =`${process.env.REACT_APP_WORKER_API_URL}embeddings/${section_id}`

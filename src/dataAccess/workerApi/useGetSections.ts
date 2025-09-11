@@ -10,8 +10,8 @@ export const useGetSections = (work_id: string) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (auth0Loading || !isAuthenticated) {
-                    throw `Auth failed ${auth0Loading} ${isAuthenticated}`
+                if (auth0Loading) {
+                    throw `Auth loading ${auth0Loading}`
                 }
                 if (process.env.REACT_APP_WORKER_API_URL) {
                     const url =`${process.env.REACT_APP_WORKER_API_URL}sections/${work_id}`
@@ -52,8 +52,8 @@ export const useGetSection = () => {
 
     return useCallback(async ({work_id}: {work_id: string}) => {
             try {
-                if (auth0Loading || !isAuthenticated) {
-                    throw `Auth failed ${auth0Loading} ${isAuthenticated}`
+                if (auth0Loading) {
+                    throw `Auth loading ${auth0Loading}`
                 }
                 if (process.env.REACT_APP_WORKER_API_URL) {
                     const url =`${process.env.REACT_APP_WORKER_API_URL}sections/${work_id}`

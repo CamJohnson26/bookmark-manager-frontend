@@ -10,14 +10,17 @@ export const useBookmarksUpload = () => {
 
 
     const postData = async (urls: string[]) => {
-        if (auth0Loading || !isAuthenticated) {
-            console.log('Auth failed', auth0Loading, isAuthenticated)
+        if (auth0Loading) {
+            console.log('Auth loading', auth0Loading)
             return;
         }
+
         try {
+            // Even if isAuthenticated is false, try to get the token
+            // This helps on mobile where isAuthenticated might be incorrectly set
             const token = await getAccessTokenSilently({
                 authorizationParams: {
-                    audience: process.env.REACT_APP_WORKER_API_AUDIENCE,
+                    audience: process.env.REACT_APP_WORKER_API_URL, // Match the audience in Auth0Provider
                 }
             })
 
