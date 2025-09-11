@@ -8,6 +8,7 @@ import LogoutButton from "./LogoutButton";
 import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
 import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
+import {Stack} from "@mui/material";
 
 const URL_QUERY = gql`
   query MyQuery {
@@ -61,8 +62,10 @@ function App() {
             />
         }
 
-        <LoginButton />
-        <LogoutButton />
+        <Stack direction="row" spacing={1} style={{justifyContent: 'center', marginTop: 10}}>
+          <LoginButton />
+          <LogoutButton />
+        </Stack>
         <CJDialog title={'Upload Bookmarks'} buttonTitle={'Upload Bookmarks'}>
           <ImportText onImport={(text) => postData(text.split('\n'))} />
         </CJDialog>
