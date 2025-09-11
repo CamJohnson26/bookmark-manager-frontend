@@ -14,6 +14,9 @@ export const ImportText = ({onImport}:{onImport: (text: string) => void}) => {
                 text.current = e.target.value
             }}
         />
-        <Button onClick={() => onImport(text.current)}>Import Text</Button>
+        <Button onClick={(e) => {
+            e.preventDefault();
+            onImport(text.current);
+        }}>Import Text</Button>
     </Stack>
 }
