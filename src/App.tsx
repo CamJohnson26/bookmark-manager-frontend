@@ -72,20 +72,33 @@ function App() {
   const { isAuthenticated } = useAuth0();
 
   return (
-      <div style={{width: '100%', height: 1000}}>
+      <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'column'}}>
         {
             isAuthenticated && <DataGrid
                 rows={rows}
                 columns={columns}
+                getRowHeight={() => 'auto'}
                 initialState={{
                   sorting: {
                     sortModel: [{ field: "id", sort: "desc" }],
                   },
                 }}
+                style={{flex: 1}}
+
             />
         }
 
-        <Stack direction="row" spacing={1} style={{justifyContent: 'center', marginTop: 10}}>
+        <Stack 
+          direction="row" 
+          spacing={1} 
+          style={{
+            justifyContent: 'center', 
+            alignItems: 'center',
+            marginTop: isAuthenticated ? 10 : 0, 
+            paddingBottom: 10,
+            flex: isAuthenticated ? 'none' : 1
+          }}
+        >
           <LoginButton />
           <LogoutButton />
         </Stack>

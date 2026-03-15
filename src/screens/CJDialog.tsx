@@ -26,7 +26,7 @@ export const CJDialog = ({title, buttonTitle, children, useFab, onClose}: PropsW
                 onClick={() => setOpen(!open)}
                 sx={{
                     position: 'fixed',
-                    bottom: 16,
+                    bottom: 80,
                     right: 16,
                     zIndex: 1000
                 }}
