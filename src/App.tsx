@@ -8,7 +8,8 @@ import LogoutButton from "./LogoutButton";
 import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
 import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
-import {Stack} from "@mui/material";
+import {Stack, Fab} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 
 const URL_QUERY = gql`
   query MyQuery {
@@ -38,11 +39,23 @@ function App() {
   const rows: GridRowsProp<Bookmark> = urls;
 
   const columns: GridColDef<Bookmark>[] = [
-    { field: "id", headerName: "ID", width: 50, resizable: true, filterable: true },
-    { field: "title", headerName: "Title", width: 500, resizable: true , filterable: true},
+    { field: "id", headerName: "ID", width: 120, resizable: true, filterable: true },
+    { field: "title", headerName: "Title", width: 500, resizable: true , filterable: true, 
+      renderCell: (params) => (
+        <div style={{ whiteSpace: 'normal', wordWrap: 'break-word', lineHeight: '1.2' }}>
+          {params.value}
+        </div>
+      )
+    },
     { field: "url", headerName: "URL", width: 300, resizable: true, filterable: true,
       renderCell: (params) => (<a href={params.row.url}>{params.row.url}</a>)},
-    { field: "summary", headerName: "Summary", width: 1000, resizable: true, filterable: true },
+    { field: "summary", headerName: "Summary", width: 1000, resizable: true, filterable: true,
+      renderCell: (params) => (
+        <div style={{ whiteSpace: 'normal', wordWrap: 'break-word', lineHeight: '1.2' }}>
+          {params.value}
+        </div>
+      )
+    },
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
   const { isAuthenticated, isLoading } = useAuth0();
@@ -74,7 +87,7 @@ const ImportTextButton = () => {
   const {postData} = useBookmarksUpload()
 
   return (
-      <CJDialog title={'Upload Bookmarks'} buttonTitle={'Upload Bookmarks'}>
+      <CJDialog title={'Upload Bookmarks'} buttonTitle={''} useFab={true}>
         <ImportText onImport={(text) => postData(text.split('\n'))}/>
       </CJDialog>
   );
