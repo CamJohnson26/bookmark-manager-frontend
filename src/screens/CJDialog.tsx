@@ -1,14 +1,23 @@
-import {FC, PropsWithChildren, useState} from "react";
+import React, {PropsWithChildren, useState} from "react";
 import {Button, Dialog, DialogContent, DialogTitle, IconButton, Fab} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 
-export const CJDialog = ({title, buttonTitle, children, useFab}: PropsWithChildren<{
+export const CJDialog = ({title, buttonTitle, children, useFab, onClose}: PropsWithChildren<{
     title: string,
     buttonTitle: string,
-    useFab?: boolean
+    useFab?: boolean,
+    onClose?: () => void
 }>) => {
     const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+        if (onClose) {
+            onClose();
+        }
+    };
+
     return <>
         {useFab ? (
             <Fab 
@@ -29,13 +38,13 @@ export const CJDialog = ({title, buttonTitle, children, useFab}: PropsWithChildr
                 {buttonTitle}
             </Button>
         )}
-        <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
+        <Dialog fullWidth open={open} onClose={handleClose}>
             <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                 {title}
             </DialogTitle>
             <IconButton
                 aria-label="close"
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
                 sx={{
                     position: 'absolute',
                     right: 8,
@@ -46,7 +55,7 @@ export const CJDialog = ({title, buttonTitle, children, useFab}: PropsWithChildr
                 <CloseIcon />
             </IconButton>
             <DialogContent dividers>
-                {children}
+                {React.cloneElement(children as React.ReactElement, { onClose: handleClose })}
             </DialogContent>
         </Dialog>
     </>

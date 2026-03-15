@@ -1,7 +1,7 @@
 import {Stack, Button, TextField} from "@mui/material";
 import {useRef} from "react";
 
-export const ImportText = ({onImport}:{onImport: (text: string) => void}) => {
+export const ImportText = ({onImport, onClose}:{onImport: (text: string) => void, onClose?: () => void}) => {
     const text = useRef<string>('');
     return <Stack>
         <TextField

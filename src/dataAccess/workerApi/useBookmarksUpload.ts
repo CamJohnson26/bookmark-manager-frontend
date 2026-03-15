@@ -1,12 +1,12 @@
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import axios from "axios";
 
 export const useBookmarksUpload = () => {
-    const [data, setData] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const {getAccessTokenSilently, isAuthenticated, isLoading: auth0Loading} = useAuth0();
+    const {getAccessTokenSilently, isLoading: auth0Loading} = useAuth0();
 
 
     const postData = async (urls: string[]) => {
@@ -14,6 +14,9 @@ export const useBookmarksUpload = () => {
             console.log('Auth loading', auth0Loading)
             return;
         }
+
+        setLoading(true);
+        setError(null);
 
         try {
             // Even if isAuthenticated is false, try to get the token
@@ -31,14 +34,18 @@ export const useBookmarksUpload = () => {
                 },
             })
 
-            return response.data
+            setLoading(false);
+            return response.data;
         } catch (error) {
             console.error('Error:', error);
+            setError(error instanceof Error ? error.message : 'An error occurred during upload');
+            setLoading(false);
+            throw error;
         }
-        setLoading(false)
     }
     return {
         postData,
-        loading
+        loading,
+        error
     }
 }
