@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.summary-markdown {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+.summary-markdown p {
+  margin: 0;
+}
+
+.summary-markdown :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.summary-markdown :is(ul, ol) {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.summary-markdown pre {
+  white-space: pre-wrap;
+}

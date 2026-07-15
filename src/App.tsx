@@ -9,6 +9,7 @@ import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
 import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
 import {Stack} from "@mui/material";
+import {MarkdownRenderer} from "./MarkdownRenderer";
 
 const URL_QUERY = gql`
   query MyQuery {
@@ -62,9 +63,7 @@ function App() {
       renderCell: (params) => (<a href={params.row.url}>{params.row.url}</a>)},
     { field: "summary", headerName: "Summary", width: summaryWidth, resizable: true, filterable: true,
       renderCell: (params) => (
-        <div style={{ whiteSpace: 'normal', wordWrap: 'break-word', lineHeight: '1.2' }}>
-          {params.value}
-        </div>
+        <MarkdownRenderer content={params.value} />
       )
     },
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
