@@ -60,3 +60,15 @@
 .summary-markdown pre {
   white-space: pre-wrap;
 }
+
+.summary-markdown table {
+  border-collapse: collapse;
+  max-width: 100%;
+}
+
+.summary-markdown th,
+.summary-markdown td {
+  border: 1px solid #bdbdbd;
+  padding: 0.2rem 0.4rem;
+  text-align: left;
+}

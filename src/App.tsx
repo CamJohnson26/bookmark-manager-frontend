@@ -8,7 +8,7 @@ import LogoutButton from "./LogoutButton";
 import {CJDialog} from "./screens/CJDialog";
 import {ImportText} from "./utilities/ImportText";
 import {useBookmarksUpload} from "./dataAccess/workerApi/useBookmarksUpload";
-import {Stack} from "@mui/material";
+import {Button, Stack, TextField} from "@mui/material";
 import {MarkdownRenderer} from "./MarkdownRenderer";
 
 const URL_QUERY = gql`
@@ -69,22 +69,51 @@ function App() {
     { field: "created_at", headerName: "Created At", width: 150, resizable: true , filterable: true},
   ];
   const { isAuthenticated } = useAuth0();
+  const [searchText, setSearchText] = useState("");
+  const [appliedSearchText, setAppliedSearchText] = useState("");
+
+  const handleSearch = () => setAppliedSearchText(searchText.trim());
+  const handleClearSearch = () => {
+    setSearchText("");
+    setAppliedSearchText("");
+  };
 
   return (
       <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'column'}}>
         {
-            isAuthenticated && <DataGrid
-                rows={rows}
-                columns={columns}
-                getRowHeight={() => 'auto'}
-                initialState={{
-                  sorting: {
-                    sortModel: [{ field: "id", sort: "desc" }],
-                  },
-                }}
-                style={{flex: 1}}
-
-            />
+            isAuthenticated && <>
+              <Stack direction="row" spacing={1} sx={{padding: 1}}>
+                <TextField
+                  label="Search bookmarks"
+                  size="small"
+                  value={searchText}
+                  onChange={(event) => setSearchText(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") handleSearch();
+                  }}
+                  fullWidth
+                />
+                <Button variant="contained" onClick={handleSearch}>Search</Button>
+                <Button variant="outlined" onClick={handleClearSearch} disabled={!searchText && !appliedSearchText}>
+                  Clear
+                </Button>
+              </Stack>
+              <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  getRowHeight={() => 'auto'}
+                  filterModel={{
+                    items: [],
+                    quickFilterValues: appliedSearchText ? [appliedSearchText] : [],
+                  }}
+                  initialState={{
+                    sorting: {
+                      sortModel: [{ field: "id", sort: "desc" }],
+                    },
+                  }}
+                  style={{flex: 1}}
+              />
+            </>
         }
 
         <Stack 
